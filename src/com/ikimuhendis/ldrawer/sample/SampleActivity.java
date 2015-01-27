@@ -9,9 +9,12 @@ import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import com.ikimuhendis.ldrawer.ActionBarDrawerToggle;
 import com.ikimuhendis.ldrawer.DrawerArrowDrawable;
@@ -25,14 +28,16 @@ public class SampleActivity extends Activity {
     private DrawerArrowDrawable drawerArrow;
     private boolean drawerArrowColor;
 
+    private ListView listView;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample);
-        ActionBar ab = getActionBar();
+        final ActionBar ab = getActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
         ab.setHomeButtonEnabled(true);
-
+        listView = (ListView) findViewById(R.id.listview);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerList = (ListView) findViewById(R.id.navdrawer);
 
@@ -93,10 +98,10 @@ public class SampleActivity extends Activity {
                     case 3:
                         if (drawerArrowColor) {
                             drawerArrowColor = false;
-                            drawerArrow.setColor(R.color.ldrawer_color);
+                            drawerArrow.setColor(getResources().getColor(R.color.ldrawer_color));
                         } else {
                             drawerArrowColor = true;
-                            drawerArrow.setColor(R.color.drawer_arrow_second_color);
+                            drawerArrow.setColor(getResources().getColor(R.color.drawer_arrow_second_color));
                         }
                         mDrawerToggle.syncState();
                         break;
@@ -126,6 +131,29 @@ public class SampleActivity extends Activity {
 
             }
         });
+        final String [] list = new String [100];
+        for (int i = 0; i < list.length; i++) {
+        	int index = i + 1;
+			list[i] =  "µЪ" + index + "По";
+		}
+        
+        listView.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list));
+        
+        listView.setOnScrollListener(new OnScrollListener() {
+			
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				String item = list[firstVisibleItem];
+				ab.setTitle(item);
+			}
+		});
     }
 
     @Override

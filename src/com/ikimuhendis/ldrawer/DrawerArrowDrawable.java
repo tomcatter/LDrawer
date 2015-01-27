@@ -45,6 +45,7 @@ public abstract class DrawerArrowDrawable extends Drawable {
         return paramFloat1 + paramFloat3 * (paramFloat2 - paramFloat1);
     }
 
+    @Override
     public void draw(Canvas canvas) {
         Rect localRect = getBounds();
         float f1 = lerp(this.mBarSize, this.mTopBottomArrowSize, this.mProgress);
