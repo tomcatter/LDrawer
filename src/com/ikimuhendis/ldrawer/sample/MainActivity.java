@@ -41,6 +41,7 @@ public class MainActivity extends Activity {
 		decor.removeView(child);
 		FrameLayout container = (FrameLayout) drawer.findViewById(R.id.container); // This is the container we
 		mDrawerList = (ListView) drawer.findViewById(R.id.navdrawer);
+		mDrawerList.setPadding(0, getStatusBarHeight(), 0, 0);
 		container.addView(child);
 
 		// Make the drawer replace the first child
@@ -141,6 +142,16 @@ public class MainActivity extends Activity {
             }
         });
 	}
+	
+	
+	 public int getStatusBarHeight() {
+	       int result = 0;
+	       int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+	       if (resourceId > 0) {
+	           result = getResources().getDimensionPixelSize(resourceId);
+	       }
+	       return result;
+	 }
 	
 	   @Override
 	    public boolean onOptionsItemSelected(MenuItem item) {
